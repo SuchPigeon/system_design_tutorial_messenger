@@ -1,0 +1,48 @@
+<html>
+	<body>
+		<h1>List chats for {{ username }} </h1>
+
+		<input type="text" id="input_chatbox_to_username" />
+		<a id="href_chatbox_to_username" href="#">Open to user chat box</a>
+
+		<script>
+			const username = "{{ username }}";
+			const input = document.getElementById("input_chatbox_to_username");
+			const link = document.getElementById("href_chatbox_to_username");
+
+			input.addEventListener("input", () => {
+				try {
+					const url = new URL("./" + encodeURIComponent(username) + "/" + encodeURIComponent(input.value), window.location.href);
+					link.href = url.href;
+				} catch {
+					link.removeAttribute("href");
+				}
+			});
+		</script>
+		<hr>
+
+		<table>
+			{% for msg in msgs %}
+				<tr>
+					{% if username == msg.to_username %}
+					<td><a href="./{{ username }}/{{ msg.from_username }}" />
+						{{ msg.from_username }}:
+						<br>
+						{{ msg.text }}
+						</a>
+					</td>
+					{% endif %}
+
+					{% if username == msg.from_username %}
+					<td><a href="./{{ username }}/{{ msg.to_username }}" />
+						[{{ msg.to_username }}]: (YOU)
+						<br>
+						{{ msg.text }}
+						</a>
+					</td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+		</table>
+	</body>
+</html>

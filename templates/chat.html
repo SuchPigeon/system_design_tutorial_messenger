@@ -1,0 +1,28 @@
+<html>
+	<body>
+		<h1>Chat with {{ to_username }}</h1>
+		<table>
+		{% for msg in msgs %}
+			<tr>
+			<td>
+				{% if msg.from_username != username %} 
+				{{ msg.text }}
+				{% endif %}
+			</td>
+			<td>
+				{% if msg.from_username == username %} 
+				{{ msg.text }}
+				{% endif %}
+			</td>
+			</tr>
+		{% endfor %}
+		</table>
+
+		<form method="post" action="/chats/{{ username }}/{{ to_username }}/send">
+			<input type="text" name="text" placeholder="Send..." required>
+			<button type="submit">Send</button>
+		</form>
+
+		<a href="/chats/{{username}}">Back</a>
+	</body>
+</html>
